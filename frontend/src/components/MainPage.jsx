@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const MainPage = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -22,7 +24,7 @@ const MainPage = () => {
           else if (activeTab === "SME") endpoint = "upcomingSME";
           else if (activeTab === "All") endpoint = "upcomingAll";
         } else if (activeStatus === "Announced") {
-          endpoint = "announced"; // Your announced endpoint
+          endpoint = "announced";
         } else if (activeStatus === "Closed") {
           if (activeTab === "MainBoard") endpoint = "closed";
           else if (activeTab === "SME") endpoint = "closedSME";
@@ -30,9 +32,7 @@ const MainPage = () => {
         }
 
         console.log(`Fetching data for ${activeTab} - ${activeStatus}...`);
-        const response = await axios.get(
-          `http://localhost:3000/get/${endpoint}`
-        );
+        const response = await axios.get(`${API_URL}/${endpoint}`);
 
         // Handle the data based on the response structure
         if (response.data && response.data.ipos) {
